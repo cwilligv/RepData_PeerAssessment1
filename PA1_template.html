@@ -64,14 +64,17 @@ img {
 </div>
 
 
-<div id="christian-willig" class="section level4">
-<h4>Christian Willig</h4>
-</div>
-<div id="august-2015" class="section level4">
-<h4>August 2015</h4>
-</div>
+<p>Christian Willig<br />August 2015</p>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
+<p>In order to process the data I downloaded the file and load the data into a dataframe <code>data</code>.</p>
+<pre class="r"><code>temp &lt;- tempfile()
+urlfile &lt;- &quot;http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
+download.file(urlfile,temp, mode=&quot;wb&quot;)
+unzip(temp)
+unlink(temp)
+
+data &lt;- read.csv(&quot;activity.csv&quot;)</code></pre>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
