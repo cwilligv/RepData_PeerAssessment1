@@ -10,19 +10,46 @@ August 2015
 ## Loading and preprocessing the data
 In order to process the data I downloaded the file and load the data into a dataframe `data`.
 ```{r}
+#creating temporary location for the file to be downloaded
 temp <- tempfile()
 urlfile <- "http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+
+#Downloading the file
 download.file(urlfile,temp, mode="wb")
+
+#Un compressing the file into the temporary location
 unzip(temp)
 unlink(temp)
 
+#creating dataframe with the activity data
 data <- read.csv("activity.csv")
+
+#making sure date behaves as a date
+data <- transform(data, date = as.Date(date))
 ```
 
 
-## What is mean total number of steps taken per day?
+## What is the mean total number of steps taken per day?
+For this part of the assignment, you can ignore the missing values in the dataset.  
+1. Make a histogram of the total number of steps taken each day  
+2. Calculate and report the mean and median total number of steps taken
+per day  
 
+```{r}
+#Calculate total steps during a day
+total_steps_day <- aggregate(steps ~ date, data, sum)
 
+#Draw histogram with the total steps during a day
+hist(total_steps_day$steps, main = paste("Total Steps per Day"), col="blue", xlab="Number of Steps")
+
+#Calculate median and mean
+mean_steps_per_day <- mean(total_steps_day$steps)
+median_steps_per_day <- median(total_steps_day$steps)
+```
+
+The `mean` of total number of steps per day is `r format(mean_steps_per_day, sciencific = T)`
+
+The `median` of total number of steps per day is `r format(median_steps_per_day, sciencific = T)`
 
 ## What is the average daily activity pattern?
 
