@@ -75,10 +75,74 @@ contains the maximum number of steps?
 ```r
 max_number_of_steps <- steps_by_interval[which.max(steps_by_interval$steps),1]
 ```
-The 4 minute interval that contains the maximum number of steps is 835
+The 5-minute interval that contains the maximum number of steps is 835
 
 ## Imputing missing values
+Note that there are a number of days/intervals where there are missing values
+(coded as NA). The presence of missing days may introduce bias into some
+calculations or summaries of the data.  
 
+1. Calculate and report the total number of missing values in the dataset
+(i.e. the total number of rows with NAs)  
+
+
+```r
+#Counting missing values from the dataset.
+number_of_na <- sum(is.na(data$steps))
+```
+
+There are 2304 missing values in the dataset.
+
+2. Devise a strategy for filling in all of the missing values in the dataset. The
+strategy does not need to be sophisticated. For example, you could use
+the mean/median for that day, or the mean for that 5-minute interval, etc.  
+
+I chose to use the mean for that 5-minute interval. This means that NA values will be replace by the mean of that 5-minute interval.
+
+In order to accomplish this we process all NA through a loop.
+
+3. Create a new dataset that is equal to the original dataset but with the
+missing data filled in. 
+
+
+```r
+#Performing imputation of NAs.
+for (i in 1:nrow(data)){
+  if (is.na(data$steps[i])){
+    interval_val <- data$interval[i]
+    row_id <- which(steps_by_interval$interval == interval_val)
+    steps_val <- steps_by_interval$steps[row_id]
+    data$steps[i] <- steps_val
+  }
+}
+```
+
+
+4. Make a histogram of the total number of steps taken each day and Calculate
+and report the mean and median total number of steps taken per day. Do
+these values differ from the estimates from the first part of the assignment?
+What is the impact of imputing missing data on the estimates of the total
+daily number of steps?  
+
+
+```r
+steps_by_interval_imputed <- aggregate(steps ~ date, data, sum)
+
+hist(steps_by_interval_imputed$steps, col=1, main="(Imputed) Histogram of total number of steps per day", xlab="Total number of steps in a day")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+
+```r
+#Calculate the mean and median of total number of steps per day
+imputed_mean <- mean(steps_by_interval_imputed$steps)
+
+imputed_median <- median(steps_by_interval_imputed$steps)
+```
+
+The new `mean` and `median` for the imputed dataset are 10766.19 and 10766.19 respectivitely.
+
+Compared to the original values calculated for the initial dataset, there is no difference in the mean whereas there is a slight difference in the median value.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
