@@ -146,3 +146,30 @@ Compared to the original values calculated for the initial dataset, there is no 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.
+
+1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.  
+
+
+```r
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", 
+              "Friday")
+
+#Adding column to dataset with no missing values.
+data$day_of_week = as.factor(ifelse(is.element(weekdays(as.Date(data$date)),weekdays), "Weekday", "Weekend"))
+```
+
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).  
+
+
+```r
+steps_by_interval_2 <- aggregate(steps ~ interval + day_of_week, data, mean)
+
+library(lattice)
+
+xyplot(steps_by_interval_2$steps ~ steps_by_interval_2$interval|steps_by_interval_2$day_of_week, main="Avg Steps per Day by Interval",xlab="Intervals", ylab="Steps",layout=c(1,2), type="l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+
