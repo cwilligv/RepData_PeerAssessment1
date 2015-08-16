@@ -28,8 +28,6 @@ data <- transform(data, date = as.Date(date))
 ## What is the mean total number of steps taken per day?
 For this part of the assignment, you can ignore the missing values in the dataset.  
 1. Make a histogram of the total number of steps taken each day  
-2. Calculate and report the mean and median total number of steps taken
-per day  
 
 
 ```r
@@ -44,6 +42,10 @@ hist(total_steps_day$steps, main = paste("Total Steps per Day"), col="blue", xla
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+2. Calculate and report the mean and median total number of steps taken
+per day  
+
 
 ```r
 #Calculate median and mean
@@ -66,7 +68,7 @@ steps_by_interval <- aggregate(steps ~ interval, data_df2, mean)
 plot(steps_by_interval$interval,steps_by_interval$steps, type="l", xlab="Interval", ylab="Number of Steps",main="Avg Number of Steps per Day by Interval")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset,
 contains the maximum number of steps?  
@@ -131,7 +133,7 @@ steps_by_interval_imputed <- aggregate(steps ~ date, data, sum)
 hist(steps_by_interval_imputed$steps, col=1, main="(Imputed) Histogram of total number of steps per day", xlab="Total number of steps in a day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
 
 ```r
 #Calculate the mean and median of total number of steps per day
@@ -171,5 +173,5 @@ library(lattice)
 xyplot(steps_by_interval_2$steps ~ steps_by_interval_2$interval|steps_by_interval_2$day_of_week, main="Avg Steps per Day by Interval",xlab="Intervals", ylab="Steps",layout=c(1,2), type="l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
 
